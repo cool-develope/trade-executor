@@ -1,0 +1,71 @@
+/**
+* Executor service.
+**/
+
+syntax = "proto3";
+package executor.v1;
+
+option go_package = "github.com/cool-develope/trade-executor/internal/orderctrl/pb";
+
+service ExecutorService {
+    // Getters
+    /// Get the best price for the dedicated symbol
+    rpc GetPrice(GetPriceRequest) returns (GetPriceResponse) {}
+
+    /// Get the order result for the order id
+    rpc GetOrder(GetOrderRequest) returns (GetOrderResponse) {}
+
+    // Setters
+    /// Apply new order
+    rpc SetOrder(SetOrderRequest) returns (SetOrderRespnose) {}
+}
+
+// OrderBook message
+message OrderBook {
+    uint64 order_book_id = 1;
+    string symbol = 2;
+    double bid_price = 3;
+    double bid_qty = 4;
+    double ask_price = 5;
+    double ask_qty = 6;
+}
+
+// PartialOrder message 
+message PartialOrder {
+    uint64 order_book_id = 1;
+    double price = 2;
+    double qty = 3;
+}
+
+// GetPriceRequest message 
+message GetPriceRequest {
+    string symbol = 1;
+}
+
+// GetPriceResponse message 
+message GetPriceResponse {
+    OrderBook price = 1;
+}
+
+// GetOrderRequest message
+message GetOrderRequest {
+    string order_id = 1;
+}
+
+// GetOrderResponse message
+message GetOrderResponse {
+    repeated PartialOrder result = 1;
+}
+
+// SetOrderRequest message
+message SetOrderRequest {
+    string symbol = 1;
+    string order_type = 2;
+    double price = 3;
+    double qty = 4;
+}
+
+// SetOrderResponse message
+message SetOrderRespnose {
+    string order_id = 1;
+}
