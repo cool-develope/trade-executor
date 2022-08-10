@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - main
-      - master
-      - develop
-      - update-external-dependencies
   pull_request:
 jobs:
   test:
