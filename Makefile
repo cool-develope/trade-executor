@@ -9,7 +9,7 @@ GO_ENV_VARS := GO_BIN=$(GO_BIN)
 GO_BINARY := trade-executor
 GO_CMD := $(GO_BASE)/cmd
 
-LINT := $$(go env GOPATH)/bin/golangci-lint run --timeout=5m -E whitespace -E gosec -E gci -E misspell -E gomnd -E gofmt -E goimports -E golint --exclude-use-default=false --max-same-issues 0
+LINT := $$(go env GOPATH)/bin/golangci-lint run --timeout=5m -E whitespace -E gci -E gofmt -E goimports -E golint --exclude-use-default=false --max-same-issues 0
 BUILD := $(GO_ENV_VARS) go build $(LDFLAGS) -o $(GO_BIN)/$(GO_BINARY) $(GO_CMD)
 
 .PHONY: install-linter
