@@ -47,17 +47,17 @@ func TestStorage(t *testing.T) {
 
 	ob.BidPrice = 40.0
 	ob.BidQty = 20
-	ob.OrderBookId += 1
+	ob.OrderBookId++
 	err = s.SetOrderBook(&ob)
 	require.NoError(t, err)
 
 	pos := []pb.PartialOrder{
-		pb.PartialOrder{
+		{
 			OrderBookId: orderBookID,
 			Price:       40.5,
 			Qty:         10.0,
 		},
-		pb.PartialOrder{
+		{
 			OrderBookId: orderBookID + 1,
 			Price:       40.0,
 			Qty:         15.0,

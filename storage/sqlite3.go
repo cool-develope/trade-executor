@@ -6,9 +6,10 @@ import (
 	"os"
 
 	"github.com/cool-develope/trade-executor/internal/orderctrl/pb"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3" //nolint
 )
 
+// Sqlite3Storage is the sqlite3 storage.
 type Sqlite3Storage struct {
 	db *sql.DB
 }
@@ -42,12 +43,8 @@ func NewSqlite3Storage() (*Sqlite3Storage, error) {
 
 // InitDB inits the db with the schema.
 func (s *Sqlite3Storage) InitDB() error {
-	err := os.Remove(dbPath)
-	if err != nil {
-		return err
-	}
-
-	_, err = s.db.Exec(`
+	_, err := s.db.Exec(`
+		DROP TABLE IF EXISTS order_book;
 		CREATE TABLE order_book (
 			id INTEGER PRIMARY KEY,
 			symbol TEXT,
@@ -56,7 +53,8 @@ func (s *Sqlite3Storage) InitDB() error {
 			bid_price REAL,
 			bid_qty REAL
 		);
-		DELETE FROM order_book;
+
+		DROP TABLE IF EXISTS applied_order;
 		CREATE TABLE applied_order (
 			id INTEGER PRIMARY KEY,
 			symbol TEXT,
@@ -64,7 +62,8 @@ func (s *Sqlite3Storage) InitDB() error {
 			price REAL,
 			amount REAL
 		);
-		DELETE FROM applied_order;
+		
+		DROP TABLE IF EXISTS executed_order;
 		CREATE TABLE executed_order (
 			price REAL,
 			amount REAL,
@@ -124,7 +123,7 @@ func (s *Sqlite3Storage) SetAppliedOrder(ao *pb.Order) (uint64, error) {
 	if err != nil {
 		return id, err
 	}
-	defer stmt.Close()
+	defer stmt.Close() //nolint
 
 	err = stmt.QueryRow(ao.Symbol, ao.OrderType, ao.Price, ao.Qty).Scan(&id)
 	if err != nil {
@@ -154,7 +153,7 @@ func (s *Sqlite3Storage) GetExecutedResults(orderID uint64) ([]*pb.PartialOrder,
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer rows.Close() //nolint
 
 	results := make([]*pb.PartialOrder, 0)
 
