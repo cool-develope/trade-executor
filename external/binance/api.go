@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"strconv"
 
 	"github.com/cool-develope/trade-executor/internal/orderctrl/pb"
+	"github.com/cool-develope/trade-executor/utils"
 	"github.com/gorilla/websocket"
 )
 
@@ -22,15 +22,6 @@ type OrderBook struct {
 	BidQty      string `json:"B,omitempty"`
 	AskPrice    string `json:"a,omitempty"`
 	AskQty      string `json:"A,omitempty"`
-}
-
-func parseFloat(value string) float64 {
-	fValue, err := strconv.ParseFloat(value, 64)
-	if err != nil {
-		log.Printf("can't parse float: %s", value)
-		return 0.0
-	}
-	return fValue
 }
 
 // Subscribe opens the websocket connection.
@@ -62,10 +53,10 @@ func Subscribe(symbol string, orderBook chan<- *pb.OrderBook, quit <-chan bool) 
 			orderBook <- &pb.OrderBook{
 				OrderBookId: ob.OrderBookID,
 				Symbol:      ob.Symbol,
-				BidPrice:    parseFloat(ob.BidPrice),
-				BidQty:      parseFloat(ob.BidQty),
-				AskPrice:    parseFloat(ob.AskPrice),
-				AskQty:      parseFloat(ob.AskQty),
+				BidPrice:    utils.ParseFloat(ob.BidPrice),
+				BidQty:      utils.ParseFloat(ob.BidQty),
+				AskPrice:    utils.ParseFloat(ob.AskPrice),
+				AskQty:      utils.ParseFloat(ob.AskQty),
 			}
 		}
 	}
