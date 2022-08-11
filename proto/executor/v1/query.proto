@@ -30,6 +30,14 @@ message OrderBook {
     double ask_qty = 6;
 }
 
+// Order message
+message Order {
+    string symbol = 1;
+    string order_type = 2;
+    double price = 3;
+    double qty = 4;
+}
+
 // PartialOrder message 
 message PartialOrder {
     uint64 order_book_id = 1;
@@ -59,10 +67,7 @@ message GetOrderResponse {
 
 // SetOrderRequest message
 message SetOrderRequest {
-    string symbol = 1;
-    string order_type = 2;
-    double price = 3;
-    double qty = 4;
+    Order order = 1;    
 }
 
 // SetOrderResponse message
