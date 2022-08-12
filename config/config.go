@@ -1,6 +1,7 @@
 package config
 
 import (
+	"log"
 	"path/filepath"
 	"strings"
 
@@ -33,6 +34,17 @@ func Load(configFilePath string) (*Config, error) {
 	viper.SetConfigName(file[0])
 	viper.SetConfigType(file[1])
 
-	err := viper.Unmarshal(&cfg, viper.DecodeHook(mapstructure.TextUnmarshallerHookFunc()))
+	err := viper.ReadInConfig()
+	if err != nil {
+		_, ok := err.(viper.ConfigFileNotFoundError)
+		if ok {
+			log.Println("config file not found")
+		} else {
+			log.Printf("error reading config file: %v", err)
+			return nil, err
+		}
+	}
+
+	err = viper.Unmarshal(&cfg, viper.DecodeHook(mapstructure.TextUnmarshallerHookFunc()))
 	return &cfg, err
 }
