@@ -1,6 +1,7 @@
 package orderctrl
 
 import (
+	"sort"
 	"testing"
 
 	"github.com/cool-develope/trade-executor/internal/orderctrl/pb"
@@ -159,6 +160,7 @@ func TestOrderMatch(t *testing.T) {
 				require.Error(t, err)
 			} else {
 				require.NoError(t, err)
+				sort.Slice(res, func(i, j int) bool { return res[i] < res[j] })
 				require.Equal(t, res, tc.expectResult)
 				require.Equal(t, m.Calls["SetExecutedOrder"], tc.expectCalls)
 			}
