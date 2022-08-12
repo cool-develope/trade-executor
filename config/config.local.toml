@@ -1,6 +1,0 @@
-[Exchange]
-Name = "mock"
-Symbols = ["BNBUSDT"]
-
-[Server]
-GRPCPort = "9090"

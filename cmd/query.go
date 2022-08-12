@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	defaultServerURL = "http://127.0.0.1:9090"
+	defaultServerURL = "127.0.0.1:9090"
 	envName          = "EXECUTOR_SERVER_URL"
 )
 

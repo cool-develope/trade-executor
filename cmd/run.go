@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/cool-develope/trade-executor/config"
 	"github.com/cool-develope/trade-executor/external/binance"
+	"github.com/cool-develope/trade-executor/external/mock"
 	"github.com/cool-develope/trade-executor/internal/orderctrl"
 	"github.com/cool-develope/trade-executor/internal/orderctrl/pb"
 	"github.com/cool-develope/trade-executor/internal/server"
@@ -42,6 +43,10 @@ func registerExchange(orderBook chan *pb.OrderBook, config config.ExchangeConfig
 	if config.Name == "binance" {
 		for _, symbol := range config.Symbols {
 			binance.Subscribe(symbol, orderBook)
+		}
+	} else if config.Name == "mock" {
+		for _, symbol := range config.Symbols {
+			mock.Subscribe(symbol, orderBook)
 		}
 	}
 }

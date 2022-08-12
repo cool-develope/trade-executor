@@ -50,7 +50,6 @@ func (o *OrderCtrl) matchOrders(ob *pb.OrderBook) ([]uint64, error) {
 	for orderID, order := range o.orderPool {
 		executedAmount := 0.0
 		executedPrice := 0.0
-
 		if order.OrderType == buyType {
 			if ob.AskPrice <= order.Price {
 				executedAmount = ob.AskQty
@@ -86,6 +85,8 @@ func (o *OrderCtrl) matchOrders(ob *pb.OrderBook) ([]uint64, error) {
 		if order.Qty <= executedAmount {
 			executedOrders = append(executedOrders, orderID)
 		}
+		order.Qty -= executedAmount
+		o.orderPool[orderID] = order
 	}
 
 	return executedOrders, nil

@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	priceSeed = 100.0
+	priceSeed = 300.0
 	qtySeed   = 10.0
 	noise     = 0.1
 	diff      = 0.5
