@@ -57,7 +57,7 @@ message GetPriceResponse {
 
 // GetOrderRequest message
 message GetOrderRequest {
-    string order_id = 1;
+    uint64 order_id = 1;
 }
 
 // GetOrderResponse message
@@ -72,5 +72,5 @@ message SetOrderRequest {
 
 // SetOrderResponse message
 message SetOrderRespnose {
-    string order_id = 1;
+    uint64 order_id = 1;
 }
