@@ -1,6 +1,11 @@
 package main
 
-import "github.com/urfave/cli/v2"
+import (
+	"log"
+	"os"
+
+	"github.com/urfave/cli/v2"
+)
 
 const (
 	// App name
@@ -10,6 +15,7 @@ const (
 )
 
 const (
+	flagCfg       = "cfg"
 	flagSymbol    = "symbol"
 	flagOrderType = "type"
 	flagAmount    = "amount"
@@ -21,6 +27,15 @@ func main() {
 	app := cli.NewApp()
 	app.Name = appName
 	app.Version = version
+
+	runFlags := []cli.Flag{
+		&cli.StringFlag{
+			Name:     flagCfg,
+			Aliases:  []string{"c"},
+			Usage:    "Config file path",
+			Required: true,
+		},
+	}
 
 	orderApplyFlags := []cli.Flag{
 		&cli.StringFlag{
@@ -72,6 +87,7 @@ func main() {
 			Name:   "serve",
 			Usage:  "Serve the executor service",
 			Action: serve,
+			Flags:  runFlags,
 		},
 		{
 			Name:  "order",
@@ -97,5 +113,10 @@ func main() {
 			Action: getPrice,
 			Flags:  priceFlags,
 		},
+	}
+
+	err := app.Run(os.Args)
+	if err != nil {
+		log.Fatalf("error cli: %v", err)
 	}
 }

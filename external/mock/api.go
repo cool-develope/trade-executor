@@ -33,14 +33,9 @@ func generateOrderBook(symbol string) *pb.OrderBook {
 }
 
 // Subscribe opens the websocket connection.
-func Subscribe(symbol string, orderBook chan<- *pb.OrderBook, quit <-chan bool) {
+func Subscribe(symbol string, orderBook chan<- *pb.OrderBook) {
 	for {
-		select {
-		case <-quit:
-			return
-		default:
-			orderBook <- generateOrderBook(symbol)
-		}
+		orderBook <- generateOrderBook(symbol)
 		time.Sleep(100 * time.Millisecond)
 	}
 }
